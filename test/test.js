@@ -5,6 +5,7 @@ const server = require('../index');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const expect = chai.expect;
+const qs = require('querystring');
 
 chai.use(chaiHttp);
 
@@ -19,7 +20,8 @@ describe('Test fake-server', () => {
             "apple",
             "orange",
             "banana"
-        ]
+        ],
+        queries: {}
     };
 
     describe('Test /setup', () => {
@@ -129,6 +131,52 @@ describe('Test fake-server', () => {
                 .end(() => {
                     chai.request(server)
                         .post('/get_fruits')
+                        .end((err, res) => {
+                            expect(res).to.have.status(404);
+                            expect(res.body).to.deep.equal({});
+                            done();
+                        });
+                });
+        });
+
+        it('Should not fail when the URL contains a querystring', done => {
+            const payload = Object.assign(JSON.parse(JSON.stringify(validPayload)),
+                {
+                    endpoint: '/vegetables',
+                    queries: {
+                        foo: 'bar'
+                    }
+                });
+            const endpointWithQueries = `${payload.endpoint}?${qs.stringify(payload.queries)}`;
+            chai.request(server)
+                .post('/setup')
+                .send(payload)
+                .end(() => {
+                    chai.request(server)
+                        .get(endpointWithQueries)
+                        .end((err, res) => {
+                            expect(res).to.have.status(200);
+                            expect(res.body).to.be.a('array');
+                            expect(res.body.length).to.equal(3);
+                            expect(res.body).to.deep.equal(validPayload.data);
+                            done();
+                        });
+                });
+        });
+
+        it('Should fail when the querystrings don\'t match', done => {
+            const payload = Object.assign(JSON.parse(JSON.stringify(validPayload)),
+                {
+                    queries: {
+                        foo: 'bar'
+                    }
+                });
+            chai.request(server)
+                .post('/setup')
+                .send(payload)
+                .end(() => {
+                    chai.request(server)
+                        .get(`${payload.endpoint}?notFoo=notBar`)
                         .end((err, res) => {
                             expect(res).to.have.status(404);
                             expect(res.body).to.deep.equal({});

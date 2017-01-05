@@ -25,7 +25,10 @@ fakeServer.listen(3000, function () {
                 'apple',
                 'orange',
                 'banana'
-            ]
+            ],
+            queries: { // optional
+                foo: 'bar'
+            }
         },
         json: true
     }, () => {
