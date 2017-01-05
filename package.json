@@ -1,0 +1,38 @@
+{
+  "description": "Fake server for mocking HTTP requests",
+  "dependencies": {
+    "body-parser": "~1.15.2",
+    "express": "~4.14.0",
+    "minimist": "^1.2.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "mocha": "^3.2.0"
+  },
+  "files": [
+    "index.js"
+  ],
+  "main": "./index",
+  "maintainers": [
+    {
+      "name": "msmol",
+      "email": "msmolash@internap.com"
+    },
+    {
+      "name": "pboutin",
+      "email": "pboutin@internap.com"
+    }
+  ],
+  "name": "fake-server",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:internap/fake-server.git"
+  },
+  "scripts": {
+    "start": "node ./index.js",
+    "debug": "nodemon ./index.js",
+    "test": "mocha --recursive ./test/"
+  },
+  "version": "0.0.1"
+}
