@@ -2,7 +2,7 @@
 
 const bodyParser = require('body-parser');
 const express = require('express');
-const argv = require('minimist')(process.argv.slice(2));
+const _ = require('lodash');
 
 const app = express();
 
@@ -11,6 +11,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.use('/setup', (req, res) => {
     const endpoint = req.body['endpoint'];
+    const queries = req.body['queries'];
     const method = req.body['method'];
     const statusCode = req.body['status_code'];
     const data = req.body['data'];
@@ -18,8 +19,13 @@ app.use('/setup', (req, res) => {
 
     if (isValidSetupCall(endpoint, method, statusCode, data, setupMethod)) {
         app[method.toLowerCase()](endpoint, (endpointReq, endpointRes) => {
-            endpointRes.status(statusCode);
-            endpointRes.json(data);
+            if (!_.isEqual(endpointReq.query, queries)) {
+                endpointRes.status(404);
+                endpointRes.json({});
+            } else {
+                endpointRes.status(statusCode);
+                endpointRes.json(data);
+            }
         });
 
         res.status(200);
