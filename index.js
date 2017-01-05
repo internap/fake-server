@@ -5,7 +5,6 @@ const express = require('express');
 const argv = require('minimist')(process.argv.slice(2));
 
 const app = express();
-const port = argv.port || 3000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -38,13 +37,6 @@ app.use('/setup', (req, res) => {
         })
     }
 
-});
-
-app.listen(port, function () {
-    console.log(`fake-server listening on port ${port}!`);
-    if (process.send) {
-        process.send('ready');
-    }
 });
 
 function isValidSetupCall(endpoint, method, statusCode, data, setupMethod) {

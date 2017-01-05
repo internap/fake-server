@@ -13,7 +13,7 @@
   "files": [
     "index.js"
   ],
-  "main": "./index",
+  "main": "./index.js",
   "maintainers": [
     {
       "name": "msmol",
@@ -24,7 +24,7 @@
       "email": "pboutin@internap.com"
     }
   ],
-  "name": "fake-server",
+  "name": "internap-fake-server",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com:internap/fake-server.git"
