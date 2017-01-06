@@ -10,10 +10,7 @@ $ npm install internap-fake-server
 const request = require('request');
 const fakeServer = require('internap-fake-server');
 
-fakeServer.listen(3000, function () {
-    console.log(`fake-server listening on port 3000!`);
-
-
+fakeServer.listen(3000, () => {
     request.post({
         headers: {'Content-Type' : 'application/json'},
         uri: 'http://127.0.0.1:3000/setup',
@@ -33,7 +30,7 @@ fakeServer.listen(3000, function () {
         json: true
     }, () => {
         request.get('http://127.0.0.1:3000/fruits', (err, res, body) => {
-            console.log(body);
+            console.log(body);  // prints ['apple', 'orange', 'banana']
         })
     });
 });
