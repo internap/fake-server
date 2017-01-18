@@ -35,5 +35,5 @@
     "debug": "nodemon ./index.js",
     "test": "mocha --recursive ./test/"
   },
-  "version": "0.0.2"
+  "version": "0.0.3"
 }
