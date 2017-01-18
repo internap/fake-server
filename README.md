@@ -14,7 +14,7 @@ fakeServer.listen(3000, () => {
     request.post({
         headers: {'Content-Type' : 'application/json'},
         uri: 'http://127.0.0.1:3000/setup',
-        body:    {
+        body: {
             endpoint: '/fruits',
             method: 'GET',
             status_code: 200,
@@ -30,8 +30,11 @@ fakeServer.listen(3000, () => {
         json: true
     }, () => {
         request.get('http://127.0.0.1:3000/fruits', (err, res, body) => {
+            console.log(res.statusCode);  // prints 404
+        });
+        request.get('http://127.0.0.1:3000/fruits?foo=bar', (err, res, body) => {
             console.log(body);  // prints ['apple', 'orange', 'banana']
-        })
+        });
     });
 });
 ```
