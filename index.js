@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.use('/setup', (req, res) => {
     const endpoint = req.body['endpoint'];
-    const queries = req.body['queries'];
+    const queries = req.body['queries'] || {};
     const method = req.body['method'];
     const statusCode = req.body['status_code'];
     const data = req.body['data'];
